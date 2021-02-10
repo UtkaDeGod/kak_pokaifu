@@ -8,6 +8,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+from yandexAPI import *
+
 
 class MyWidget(QMainWindow):
     def __init__(self):
@@ -16,9 +18,13 @@ class MyWidget(QMainWindow):
         uic.loadUi('template.ui', self)
         self.setWindowTitle("Проект крутышек")
 
-    def show_image(self, bits):
+        self.yandex_api = YandexAPI()
+        self.show_image()
+
+    def show_image(self):
+        bits = self.yandex_api.get_map_image()
         image = Image.open(io.BytesIO(bits))
-        pixmap = QPixmap().fromImage(image, flags=Qt.AutoColor)
+        pixmap = image.toqpixmap()
         self.pixmap_lb.setPixmap(pixmap)
 
 
